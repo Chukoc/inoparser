@@ -90,3 +90,25 @@ describe('lexer test:', () => {
 		})
 	})
 } )
+
+let longOperatorLexer = new Lexer(
+	`<<=
+>>=
+...
+->*`
+)
+
+const expectedTokenForLongOperator : Token[] = [
+	new Token(TokenType.LSHIFTEQ, '<<=', 1, 1),
+	new Token(TokenType.RSHIFTEQ, '>>=', 2, 1),
+	new Token(TokenType.EXTENTION, '...', 3, 1),
+	new Token(TokenType.POINTARROW, '->*', 4, 1),
+]
+
+describe('lexer test', () => {
+	test('Long operator test', ()=>{
+		expectedTokenForLongOperator.forEach(element => {
+			expect(longOperatorLexer.NextToken()).toStrictEqual(element)
+		})
+	})
+})

@@ -267,6 +267,7 @@ export class Lexer {
 								break
 						}
 				
+						break
 					default:
 						token = new Token(TokenType.LT, '<', this.line, pos)
 				}
@@ -294,7 +295,7 @@ export class Lexer {
 								token = new Token(TokenType.RSHIFT, '>>', this.line, pos)
 								break
 						}
-				
+						break
 					default:
 						token = new Token(TokenType.GT, '>', this.line, pos)
 				}
