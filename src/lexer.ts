@@ -328,7 +328,7 @@ export class Lexer {
 						{
 							this.readChar()
 							let lit = this.readIdentOrNumLiteral()
-							const onlynum = /([0-9]*'?)*/ 
+							const onlynum = /^([0-9]*'?)*[lfLF]?$/ 
 							if(onlynum.test(lit))
 							{
 								token = new Token(TokenType.NUMBER, '.' + lit, this.line, pos)
@@ -337,7 +337,7 @@ export class Lexer {
 							{
 								token = new Token(TokenType.ILLEGAL, '.' + lit, this.line, pos)
 							}
-							break
+							return token
 						}
 						else
 						{
@@ -472,14 +472,14 @@ export class Lexer {
 	}
 
 	getTypeOfNonKeyword(literal:string) : TokenType {
-		const DIGITINT = /[1-9]([0-9]*'?)*[uU]?[lL]?[lL]?/
-		const BININT = /0[bB]([01]*'?)*[uU]?[lL]?[lL]?/
-		const OCTINT = /0([0-7]*'?)*[uU]?[lL]?[lL]?/
-		const HEXINT = /0[xX]([0-9a-fA-F]*'?)*[uU]?[lL]?[lL]?/
-		const FLOAT = /[0-9]+.([0-9]*'?)*([eE](\+-)?[0-9]*)?[lfLF]?/
-		const IDENT = /[a-zA-Z_][a-zA-Z_0-9]*/
-		const CHAR = /(L|u8|u|U)?'([^\\'"]|\\n|\\|\\t|\\\?|\\v|\'|\\d|\\"|\\r|\\0|\\f|\\a|\\[0-7]{3}|\\x[0-9a-fA-F]{1,8}|\\u[0-9]{4}|\\U[0-9]{8})'/
-		const STRING = /(u8|L|u|U)?R?".*"$/
+		const DIGITINT = /^[1-9]([0-9]*'?)*[uU]?[lL]?[lL]?$/
+		const BININT = /^0[bB]([01]*'?)*[uU]?[lL]?[lL]?$/
+		const OCTINT = /^0([0-7]*'?)*[uU]?[lL]?[lL]?$/
+		const HEXINT = /^0[xX]([0-9a-fA-F]*'?)*[uU]?[lL]?[lL]?$/
+		const FLOAT = /^[0-9]+\.([0-9]*'?)*([eE][\+-]?[0-9]*)?[lfLF]?$/
+		const IDENT = /^[a-zA-Z_][a-zA-Z_0-9]*$/
+		const CHAR = /^(L|u8|u|U)?'([^\\'"]|\\n|\\\\|\\t|\\\?|\\v|\'|\\d|\\"|\\r|\\0|\\f|\\a|\\[0-7]{3}|\\x[0-9a-fA-F]{1,8}|\\u[0-9]{4}|\\U[0-9]{8})'/
+		const STRING = /^(u8|L|u|U)?R?".*"$/
 
 		if (getKeyword(literal) != TokenType.IDENT)
 		{
@@ -575,7 +575,7 @@ export class Lexer {
 		// let id = this.getCharCode(char)
 		return this.getCharCode('a') <= charID && charID <= this.getCharCode('z') ||
 			   this.getCharCode('A') <= charID && charID <= this.getCharCode('Z') || 
-			   charID == this.getCharCode('_') /*|| charID == this.getCharCode('"') || charID == this.getCharCode("'")*/
+			   charID == this.getCharCode('_') || charID == this.getCharCode('"') || charID == this.getCharCode("'")
 	}
 
 	isNumber(charID:number):boolean{
