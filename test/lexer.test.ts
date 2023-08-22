@@ -112,3 +112,27 @@ describe('lexer test', () => {
 		})
 	})
 })
+
+let charStrLexer = new Lexer(
+	`"this is "str " test"
+'c'
+'\\'
+u8'\\011'
+'\\xfB70'`
+)
+
+const expectedTokenForCharStr : Token[] = [
+	new Token(TokenType.STRING, "\"this is \"str \" test\"",1,1),
+	new Token(TokenType.CHARLIT, "'c'",2,1),
+	new Token(TokenType.CHARLIT, "'\\'",3,1),
+	new Token(TokenType.CHARLIT, "u8'\\011'",4,1),
+	new Token(TokenType.CHARLIT, "'\\xfB70'",5,1),
+]
+
+describe ('lexer test', ()=>{
+	test('Str and Char', ()=> {
+		expectedTokenForCharStr.forEach(element => {
+			expect(charStrLexer.NextToken()).toEqual(element)
+		})
+	})
+})

@@ -501,7 +501,7 @@ export class Lexer {
 		}
 		else if(CHAR.test(literal))
 		{
-			return TokenType.CHAR
+			return TokenType.CHARLIT
 		}
 		else
 		{
