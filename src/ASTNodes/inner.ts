@@ -11,7 +11,6 @@ import { astNode } from "./node";
     new lParlenLiteralNode()
     new conditionNode()
     new rParlenLiteralNode()
-    new lBracketLiteralNode()
     new statementNode
   ]
 */
